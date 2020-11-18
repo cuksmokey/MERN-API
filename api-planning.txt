@@ -1,3 +1,5 @@
+t93w5W55wTyx3RkV
+
 STANDARD API
 {root.api}/{version}/{grouping}/{endpoint}
 
@@ -44,7 +46,8 @@ res:
 }
 
 err-response:
-400
+201 - berhasil
+400 - error
 
 [2] - Login
 {root.api}/{version}/auth/login
@@ -54,6 +57,35 @@ err-response:
 GROUP: main-app (BLOG)
 
 [1] - Create Blog Post
+[POST] : {root.api}/{version}/blog/post
+
+req:
+{
+    "title": "title",
+    "image": "image.png,
+    "body": "Content"
+}
+
+res:
+{
+    "message": "Create Blog Post Succes",
+    "data": {
+        "post_id": 1,
+        "title": "Title Blog",
+        "image": "image.png",
+        "body": "Content",
+        "created_at": "01/01/2020",
+        "author": {
+            "uid": 1,
+            "name": "Test Author"
+        }
+    }
+}
+
+err-response
+201 - berhasil
+400 - error
+
 [2] - Get Blog Post
 [3] - Update Blog Post
 [4] - Delete Blog Post
