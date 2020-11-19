@@ -12,4 +12,10 @@ router.post('/post', [
     ],
     blogController.createBlogPost);
 
+// ambil data all
+router.get('/posts', blogController.getAllBlogPost);
+
+// ambil data per id
+router.get('/post/:postId', blogController.getBlogPostById);
+
 module.exports = router;

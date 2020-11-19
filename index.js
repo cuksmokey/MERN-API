@@ -1,12 +1,45 @@
-const express = require('express');
+const express = require('express'); // fw
 const bodyParser = require('body-parser');
-const uri = require('mongoose');
+const uri = require('mongoose'); // connet ke mongodb
+const multer = require('multer'); // upload img
+const path = require('path'); // mengatasi panggil error img
 
 const app = express();
 const authRoutes = require('./src/routes/auth');
 const blogRoutes = require('./src/routes/blog');
 
-app.use(bodyParser.json())
+// upload file gambar
+const fileStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'images');
+    },
+    filename: (req, file, cb) => {
+        cb(null, new Date().getTime() + '-' + file.originalname)
+    }
+})
+
+const fileFilter = (req, file, cb) => {
+    if(file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg'){
+        cb(null, true);
+    }else{
+        cb(null, false);
+    }
+}
+
+                                                // middle where
+
+app.use(bodyParser.json());
+
+// error panggil img
+app.use('/images', express.static(path.join(__dirname, 'images')));
+
+// img
+app.use(multer({
+        storage: fileStorage,
+        fileFilter: fileFilter
+    })
+    .single('image')
+);
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -31,8 +64,9 @@ app.use((error, req, res, next) => {
     });
 });
 
-uri.connect('mongodb+srv://user:user@cluster0.naexy.mongodb.net/<dbname>?retryWrites=true&w=majority', {
-    useNewUrlParser: true
+uri.connect('mongodb://dbUser:PSn2gUVHSGJhcj4n@mern-shard-00-00.jdcgl.mongodb.net:27017,mern-shard-00-01.jdcgl.mongodb.net:27017,mern-shard-00-02.jdcgl.mongodb.net:27017/blog?ssl=true&replicaSet=atlas-qri8s2-shard-0&authSource=admin&retryWrites=true&w=majority', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
 })
 .then(() => {
     app.listen(4000, () => console.log('Success'));
@@ -44,3 +78,4 @@ uri.connect('mongodb+srv://user:user@cluster0.naexy.mongodb.net/<dbname>?retryWr
 // npm add nodemon
 // npm add body-parser
 // npm add mongoose
+// npm install --save multer (kirim file image)

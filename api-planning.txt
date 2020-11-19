@@ -1,4 +1,4 @@
-t93w5W55wTyx3RkV
+PSn2gUVHSGJhcj4n
 
 STANDARD API
 {root.api}/{version}/{grouping}/{endpoint}
