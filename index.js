@@ -1,6 +1,6 @@
 const express = require('express'); // fw
 const bodyParser = require('body-parser');
-const uri = require('mongoose'); // connet ke mongodb
+const mongoose = require('mongoose'); // connet ke mongodb
 const multer = require('multer'); // upload img
 const path = require('path'); // mengatasi panggil error img
 
@@ -64,12 +64,13 @@ app.use((error, req, res, next) => {
     });
 });
 
-uri.connect('mongodb://dbUser:PSn2gUVHSGJhcj4n@mern-shard-00-00.jdcgl.mongodb.net:27017,mern-shard-00-01.jdcgl.mongodb.net:27017,mern-shard-00-02.jdcgl.mongodb.net:27017/blog?ssl=true&replicaSet=atlas-qri8s2-shard-0&authSource=admin&retryWrites=true&w=majority', {
+mongoose.connect('mongodb://dbUser:PSn2gUVHSGJhcj4n@mern-shard-00-00.jdcgl.mongodb.net:27017,mern-shard-00-01.jdcgl.mongodb.net:27017,mern-shard-00-02.jdcgl.mongodb.net:27017/blog?ssl=true&replicaSet=atlas-qri8s2-shard-0&authSource=admin&retryWrites=true&w=majority', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
 .then(() => {
-    app.listen(4000, () => console.log('Success'));
+    app.listen(4000);
+    // app.listen(4000);
 })
 .catch(err => console.log('Ehhh : ', err));
 
